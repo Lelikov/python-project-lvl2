@@ -1,9 +1,12 @@
 import json
+from gendiff.parsers import parse_json, parse_yaml
 
 
 def generate_diff(path_to_file1, path_to_file2):
-    before = json.load(open(path_to_file1))
-    after = json.load(open(path_to_file2))
+    if path_to_file1.endswith('.json') and path_to_file2.endswith('.json'):
+        before, after = parse_json(path_to_file1, path_to_file2)
+    if path_to_file1.endswith('.yml') and path_to_file2.endswith('.yml'):
+        before, after = parse_yaml(path_to_file1, path_to_file2)
     array = ["{"]
     for key, value in before.items():
         if after.get(key) is not None:
