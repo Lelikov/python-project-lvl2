@@ -9,6 +9,7 @@ before_install:
   # make depends on poetry
   - pip install poetry
   - pip install pytest-cov
+  - pip install PyYAML
 
 install:
   - make install
