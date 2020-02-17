@@ -29,10 +29,6 @@ def generate_diff(path_to_file1, path_to_file2, format):
     first_file_extension = path_to_file1[path_to_file1.rfind('.'):]
     second_file_extension = path_to_file2[path_to_file2.rfind('.'):]
     problem = ''
-    '''extension = ['.json', '.yml']
-    if not (first_file_extension or second_file_extension) in extension:
-        print('Unsupported type of files. Supported only .json and .yml')
-        problem = 'Unsupported type of files'''''
 
     file_type = {
         '.json': parse_json(),
@@ -40,20 +36,12 @@ def generate_diff(path_to_file1, path_to_file2, format):
     }
     try:
         before = file_type[first_file_extension](path_to_file1)
-    except FileNotFoundError:
-        print('First file not found')
-        problem = 'First file not found'
-    except KeyError:
-        print('Unsupported type of first file. Supported only .json and .yml')
-        problem = 'Unsupported type of files'
-
-    try:
         after = file_type[second_file_extension](path_to_file2)
     except FileNotFoundError:
-        print('Second file not found')
-        problem = 'Second file not found'
+        print('File not found')
+        problem = 'File not found'
     except KeyError:
-        print('Unsupported type of second file. Supported only .json and .yml')
+        print('Unsupported type of file. Supported only .json and .yml')
         problem = 'Unsupported type of files'
 
     render = {
@@ -67,9 +55,11 @@ def generate_diff(path_to_file1, path_to_file2, format):
     except KeyError:
         print('Incorrect output format. Choose plain, text or json')
         problem = 'Incorrect output format'
-        return problem
     except UnboundLocalError:
-        return problem
+        pass
 
-    print(result)
-    return result
+    if problem == '':
+        print(result)
+        return result
+    else:
+        return problem
