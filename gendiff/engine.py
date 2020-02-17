@@ -8,9 +8,6 @@ def constructor_diff(before, after, path, diff_array):
     for diff_key in after_keys - before_keys:
         diff_array.append(('{}.{}'.format(path, diff_key)[1:],
                            'add', after[diff_key]))
-    for diff_key in before_keys - after_keys:
-        diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-                           'del', before[diff_key]))
     for diff_key in after_keys & before_keys:
         if isinstance(before[diff_key], dict):
             constructor_diff(before[diff_key], after[diff_key],
@@ -22,6 +19,9 @@ def constructor_diff(before, after, path, diff_array):
             diff_array.append(('{}.{}'.format(path, diff_key)[1:], 'change',
                                '{}->{}'.format(before[diff_key],
                                                after[diff_key])))
+    for diff_key in before_keys - after_keys:
+        diff_array.append(('{}.{}'.format(path, diff_key)[1:],
+                           'del', before[diff_key]))
     return sorted(diff_array)
 
 
