@@ -1,5 +1,5 @@
-import collections
 from gendiff.formatters.construction_dictionary import construction_dictionary
+import collections
 
 
 def text_render(text_array):
@@ -10,16 +10,15 @@ def text_render(text_array):
     '''
     result_dict = collections.defaultdict(dict)
     for param in text_array:
-        path, operation, new_value = param
+        path, operation, value = param
         path_split = path.split('.')
         change_symbol = {'add': '+', 'del': '-', 'no_change': ' ', 'change': ''}
         path_split[-1] = '{} {}'.format(change_symbol[operation], path_split[-1])
-        value = new_value
-        result = construction_dictionary(path_split, value, result_dict)
-    array = ['{']
-    result = text_render_print(result, array, 1)
-    result.append('}')
-    return '\n'.join(result)
+        result_dict = construction_dictionary(path_split, value, result_dict)
+    result_array = ['{']
+    result_array = text_render_print(result_dict, result_array, 1)
+    result_array.append('}')
+    return '\n'.join(result_array)
 
 
 def text_render_print(dictionary, array, indent=0):
