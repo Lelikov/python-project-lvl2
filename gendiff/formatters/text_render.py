@@ -24,10 +24,9 @@ def text_render_print(dictionary, array, indent=0):
             text_render_print(value, array, indent + 2)
             array.append('  ' * indent + '}')
         elif '->' in str(value):
-            array.append('{}{} {}: {}'.format('  ' * indent, '+', key[1:],
-                                              str(value).split('->')[1]))
-            array.append('{}{} {}: {}'.format('  ' * indent, '-', key[1:],
-                                              str(value).split('->')[0]))
+            for change_value, sign in zip(str(value).split('->'), ['-', '+']):
+                array.append('{}{} {}: {}'.format('  ' * indent,
+                                                  sign, key[1:], change_value))
         else:
             array.append('{}{}: {}'.format('  ' * indent, str(key), str(value)))
     return array
