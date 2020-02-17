@@ -2,12 +2,21 @@ from gendiff.parsers import parse_json, parse_yaml
 from gendiff.formatters import json_render, plain_render, text_render
 
 
+def add_param(path, diff_key, oper, value):
+    return '{}.{}'.format(path, diff_key)[1:], oper, value
+
+
 def constructor_diff(before, after, path, diff_array):
     before_keys = set(before.keys())
     after_keys = set(after.keys())
     for diff_key in after_keys - before_keys:
-        diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-                           'add', after[diff_key]))
+        # diff_array.append(('{}.{}'.format(path, diff_key)[1:],
+        #                   'add', after[diff_key]))
+        diff_array.append(add_param(path, diff_key, 'add', after[diff_key]))
+    for diff_key in before_keys - after_keys:
+        # diff_array.append(('{}.{}'.format(path, diff_key)[1:],
+        #                   'del', before[diff_key]))
+        diff_array.append(add_param(path, diff_key, 'del', before[diff_key]))
     for diff_key in after_keys & before_keys:
         if isinstance(before[diff_key], dict):
             constructor_diff(before[diff_key], after[diff_key],
@@ -19,9 +28,6 @@ def constructor_diff(before, after, path, diff_array):
             diff_array.append(('{}.{}'.format(path, diff_key)[1:], 'change',
                                '{}->{}'.format(before[diff_key],
                                                after[diff_key])))
-    for diff_key in before_keys - after_keys:
-        diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-                           'del', before[diff_key]))
     return sorted(diff_array)
 
 
