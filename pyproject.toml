@@ -1,11 +1,18 @@
 [tool.poetry]
 name = "lelikov_diff"
-version = "0.3.1"
-description = ""
+version = "0.3.2"
+description = "Difference Calculator"
 authors = ["Alexandr Lelikov <lelikovas@gmail.com>"]
 packages = [
   { include = "gendiff" },
 ]
+repository = "https://github.com/Lelikov/python-project-lvl2"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.8",
+  "Environment :: Console",
+  "Natural Language :: English",
+  ]
 
 [tool.poetry.dependencies]
 python = "^3.8"
