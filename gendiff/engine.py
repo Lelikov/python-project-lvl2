@@ -2,8 +2,8 @@ from gendiff.parsers import parse_json, parse_yaml
 from gendiff.formatters import json_render, plain_render, text_render
 
 
-def add_param(path, diff_key, oper, value):
-    return '{}.{}'.format(path, diff_key)[1:], oper, value
+def add_param(path, diff_key, operation, value):
+    return '{}.{}'.format(path, diff_key)[1:], operation, value
 
 
 def constructor_diff(before, after, path, diff_array):
@@ -26,6 +26,13 @@ def constructor_diff(before, after, path, diff_array):
 
 
 def generate_diff(path_to_file1, path_to_file2, format):
+    '''
+    Generating difference between two files. Print in plain, text or JSON format
+    :param path_to_file1: Path to first file
+    :param path_to_file2: Path to second file
+    :param format: Output format. Plain, text or JSON
+    :return: Difference between two files
+    '''
     first_file_extension = path_to_file1[path_to_file1.rfind('.'):]
     second_file_extension = path_to_file2[path_to_file2.rfind('.'):]
     problem = ''

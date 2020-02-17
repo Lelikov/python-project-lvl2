@@ -1,9 +1,16 @@
 import itertools
 
 
-def construction_dictionary(path_split, intermediate_dict, result_dict):
+def construction_dictionary(path_split, value, result_dict):
+    '''
+    Constructing path into {a: {b: {...}} view
+    :param path_split: Array of the path to the parameter
+    :param value: Value
+    :param result_dict: Summary dictionary
+    :return: Summary dictionary
+    '''
     for key in reversed(path_split):
-        intermediate_dict = {key: intermediate_dict}
-    for key, value in itertools.chain(intermediate_dict.items(), result_dict.items()):
+        value = {key: value}
+    for key, value in itertools.chain(value.items(), result_dict.items()):
         result_dict[key].update(value)
     return result_dict

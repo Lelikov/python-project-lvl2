@@ -1,4 +1,9 @@
 def plain_render(plain_array):
+    '''
+    Render difference to plain format
+    :param text_array: Difference in (path, operation, value) format
+    :return: Plain text
+    '''
     array = []
     for param in plain_array:
         path, operation, value = param
