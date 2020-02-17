@@ -10,24 +10,18 @@ def constructor_diff(before, after, path, diff_array):
     before_keys = set(before.keys())
     after_keys = set(after.keys())
     for diff_key in after_keys - before_keys:
-        # diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-        #                   'add', after[diff_key]))
         diff_array.append(add_param(path, diff_key, 'add', after[diff_key]))
     for diff_key in before_keys - after_keys:
-        # diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-        #                   'del', before[diff_key]))
         diff_array.append(add_param(path, diff_key, 'del', before[diff_key]))
     for diff_key in after_keys & before_keys:
         if isinstance(before[diff_key], dict):
             constructor_diff(before[diff_key], after[diff_key],
                              '{}.{}'.format(path, diff_key), diff_array)
         elif after[diff_key] == before[diff_key]:
-            diff_array.append(('{}.{}'.format(path, diff_key)[1:],
-                               'no_change', after[diff_key]))
+            diff_array.append(add_param(path, diff_key, 'no_change', after[diff_key]))
         else:
-            diff_array.append(('{}.{}'.format(path, diff_key)[1:], 'change',
-                               '{}->{}'.format(before[diff_key],
-                                               after[diff_key])))
+            diff_array.append(add_param(path, diff_key, 'change',
+                                        '{}->{}'.format(before[diff_key], after[diff_key])))
     return sorted(diff_array)
 
 
