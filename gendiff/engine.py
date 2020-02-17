@@ -28,11 +28,11 @@ def constructor_diff(before, after, path, diff_array):
 def generate_diff(path_to_file1, path_to_file2, format):
     first_file_extension = path_to_file1[path_to_file1.rfind('.'):]
     second_file_extension = path_to_file2[path_to_file2.rfind('.'):]
-
-    extension = ['.json', '.yml']
+    problem = ''
+    '''extension = ['.json', '.yml']
     if not (first_file_extension or second_file_extension) in extension:
         print('Unsupported type of files. Supported only .json and .yml')
-        return 'Unsupported type of files'
+        problem = 'Unsupported type of files'''''
 
     file_type = {
         '.json': parse_json(),
@@ -42,12 +42,19 @@ def generate_diff(path_to_file1, path_to_file2, format):
         before = file_type[first_file_extension](path_to_file1)
     except FileNotFoundError:
         print('First file not found')
-        return 'First file not found'
+        problem = 'First file not found'
+    except KeyError:
+        print('Unsupported type of first file. Supported only .json and .yml')
+        problem = 'Unsupported type of files'
+
     try:
         after = file_type[second_file_extension](path_to_file2)
     except FileNotFoundError:
         print('Second file not found')
-        return 'Second file not found'
+        problem = 'Second file not found'
+    except KeyError:
+        print('Unsupported type of second file. Supported only .json and .yml')
+        problem = 'Unsupported type of files'
 
     render = {
         'text': text_render.text_render,
@@ -59,6 +66,10 @@ def generate_diff(path_to_file1, path_to_file2, format):
         result = render[format](constructor_diff(before, after, '', diff_array))
     except KeyError:
         print('Incorrect output format. Choose plain, text or json')
-        return 'Incorrect output format'
+        problem = 'Incorrect output format'
+        return problem
+    except UnboundLocalError:
+        return problem
+
     print(result)
     return result
