@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lelikov_diff"
-version = "0.3.2"
+version = "0.3.3"
 description = "Difference Calculator"
 authors = ["Alexandr Lelikov <lelikovas@gmail.com>"]
 packages = [

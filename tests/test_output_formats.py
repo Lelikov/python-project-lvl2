@@ -20,3 +20,10 @@ def test_text():
     assert generate_diff("tests/fixtures/before.json",
                          "tests/fixtures/after.json", "text") == f_text.read()
     f_text.close()
+
+
+def test_plain_text():
+    f_plain_text = open("tests/fixtures/result_plain_text.txt", "r")
+    assert generate_diff("tests/fixtures/before_plain.json",
+                         "tests/fixtures/after_plain.json", "text") == f_plain_text.read()
+    f_plain_text.close()
