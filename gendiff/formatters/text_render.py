@@ -9,10 +9,10 @@ def text_render(text_array):
     :return: Text
     '''
     result_dict = collections.defaultdict(dict)
+    change_symbol = {'add': '+', 'del': '-', 'no_change': ' ', 'change': ''}
     for param in text_array:
         path, operation, value = param
         path_split = path.split('.')
-        change_symbol = {'add': '+', 'del': '-', 'no_change': ' ', 'change': ''}
         path_split[-1] = '{} {}'.format(change_symbol[operation], path_split[-1])
         result_dict = construction_dictionary(path_split, value, result_dict)
     result_array = ['{']

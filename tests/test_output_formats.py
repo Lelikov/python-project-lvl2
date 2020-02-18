@@ -1,29 +1,19 @@
 from gendiff.engine import generate_diff
 
 
-def test_plain():
-    f_plain = open("tests/fixtures/result_plain.txt", "r")
-    assert generate_diff("tests/fixtures/before.json",
-                         "tests/fixtures/after.json", "plain") == f_plain.read()
-    f_plain.close()
+def test_output_formats():
+    with open("tests/fixtures/result_plain.txt", "r") as result_plain:
+        assert generate_diff("tests/fixtures/before.json",
+                             "tests/fixtures/after.json", "plain") == result_plain.read()
 
+    with open("tests/fixtures/result_json.txt", "r") as result_json:
+        assert generate_diff("tests/fixtures/before.json",
+                             "tests/fixtures/after.json", "json") == result_json.read()
 
-def test_json():
-    f_json = open("tests/fixtures/result_json.txt", "r")
-    assert generate_diff("tests/fixtures/before.json",
-                         "tests/fixtures/after.json", "json") == f_json.read()
-    f_json.close()
+    with open("tests/fixtures/result_text.txt", "r") as result_text:
+        assert generate_diff("tests/fixtures/before.json",
+                             "tests/fixtures/after.json", "text") == result_text.read()
 
-
-def test_text():
-    f_text = open("tests/fixtures/result_text.txt", "r")
-    assert generate_diff("tests/fixtures/before.json",
-                         "tests/fixtures/after.json", "text") == f_text.read()
-    f_text.close()
-
-
-def test_plain_text():
-    f_plain_text = open("tests/fixtures/result_plain_text.txt", "r")
-    assert generate_diff("tests/fixtures/before_plain.json",
-                         "tests/fixtures/after_plain.json", "text") == f_plain_text.read()
-    f_plain_text.close()
+    with open("tests/fixtures/result_plain_text.txt", "r") as result_plain_text:
+        assert generate_diff("tests/fixtures/before_plain.json",
+                             "tests/fixtures/after_plain.json", "text") == result_plain_text.read()

@@ -7,8 +7,8 @@ def add_param(path, diff_key, operation, value):
 
 
 def constructor_diff(before, after, path, diff_array):
-    before_keys = set(before.keys())
-    after_keys = set(after.keys())
+    before_keys = before.keys()
+    after_keys = after.keys()
     for diff_key in after_keys - before_keys:
         diff_array.append(add_param(path, diff_key, 'add', after[diff_key]))
     for diff_key in before_keys - after_keys:
