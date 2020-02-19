@@ -1,7 +1,7 @@
 from gendiff.parsers import parse_json, parse_yaml
 from gendiff.formatters import json_render, plain_render, text_render
 import os.path
-from gendiff.constants import ADDED, DELETED, CHANGED, NO_CHANGED
+from gendiff.constructors import difference_constructor
 
 RENDER = {
     'text': text_render.text_render,
@@ -36,7 +36,7 @@ def generate_diff(path_to_file1, path_to_file2, format):
         first_file = FILE_TYPE[first_file_extension](path_to_file1)
         second_file = FILE_TYPE[second_file_extension](path_to_file2)
         diff_list = []
-        result = RENDER[format](constructor_diff(first_file, second_file, '', diff_list))
+        result = RENDER[format](difference_constructor(first_file, second_file, '', diff_list))
 
     except FileNotFoundError:
         problem = PROBLEM['Not_found']
@@ -49,27 +49,3 @@ def generate_diff(path_to_file1, path_to_file2, format):
     else:
         print(problem)
         return problem
-
-
-def constructor_diff(first_file, second_file, path, diff_list):
-    first_file_keys = first_file.keys()
-    second_file_keys = second_file.keys()
-
-    def add(diff_key, operation, value):
-        diff_list.append(('{}.{}'.format(path, diff_key)[1:], operation, value))
-
-    for diff_key in second_file_keys - first_file_keys:
-        add(diff_key, ADDED, second_file[diff_key])
-
-    for diff_key in first_file_keys - second_file_keys:
-        add(diff_key, DELETED, first_file[diff_key])
-
-    for diff_key in second_file_keys & first_file_keys:
-        if second_file[diff_key] == first_file[diff_key]:
-            add(diff_key, NO_CHANGED, second_file[diff_key])
-        elif isinstance(first_file[diff_key], dict) and (isinstance(second_file[diff_key], dict)):
-            constructor_diff(first_file[diff_key], second_file[diff_key], '{}.{}'.format(path, diff_key), diff_list)
-        else:
-            add(diff_key, CHANGED, (first_file[diff_key], second_file[diff_key]))
-    diff_list.sort()
-    return diff_list

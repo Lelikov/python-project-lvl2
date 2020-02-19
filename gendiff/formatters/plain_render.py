@@ -1,4 +1,4 @@
-from gendiff.constants import ADDED, DELETED, CHANGED, NO_CHANGED
+from gendiff.constants import ADDED, DELETED, CHANGED
 
 
 def plain_render(plain_list):
@@ -14,12 +14,10 @@ def plain_render(plain_list):
         if operation == CHANGED:
             result_list.append("Property '{}' was changed. "
                                "From '{}' to '{}'".format(path, value[0], value[1]))
-            continue
         elif operation == ADDED:
             result_list.append("Property '{}' was added with value: "
                                "'{}'".format(path, 'complex value' if isinstance(value,
                                                                                  dict) else value))
-            continue
         elif operation == DELETED:
             result_list.append("Property '{}' was removed".format(path))
     return '\n'.join(result_list)

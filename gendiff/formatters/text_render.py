@@ -1,4 +1,4 @@
-from gendiff.dictionary_constructor import dictionary_constructor
+from gendiff.constructors import dictionary_constructor
 import collections
 from gendiff.constants import ADDED, DELETED, CHANGED, NO_CHANGED
 
