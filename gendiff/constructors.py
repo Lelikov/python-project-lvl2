@@ -29,21 +29,21 @@ def dictionary_constructor_for_json(text_list):
     :return: Dictionary
     '''
     result_dict = collections.defaultdict(dict)
+    def add(path, new_value, result):
+        return dictionary_constructor(path, new_value, result)
+
     for param in text_list:
         path, operation, value = param
         path_split = path.split('.')
         if isinstance(value, dict):
             while isinstance(value, dict):
                 key, value = list(value.keys())[0], list(value.values())[0]
-                result_dict = dictionary_constructor(path_split, {key: value}, result_dict)
-            result_dict = dictionary_constructor(path_split,
-                                                 {key: {value: operation}}, result_dict)
+                add(path_split, {key: value}, result_dict)
+            add(path_split, {key: {value: operation}}, result_dict)
         elif isinstance(value, tuple):
-            result_dict = dictionary_constructor(path_split,
-                                                 {str(value[0]): DELETED, str(value[1]): ADDED},
-                                                 result_dict)
+            add(path_split, {str(value[0]): DELETED, str(value[1]): ADDED}, result_dict)
         else:
-            result_dict = dictionary_constructor(path_split, {str(value): operation}, result_dict)
+            add(path_split, {str(value): operation}, result_dict)
     return result_dict
 
 
