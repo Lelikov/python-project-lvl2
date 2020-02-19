@@ -34,11 +34,10 @@ def dictionary_constructor_for_json(text_list):
         path_split = path.split('.')
         if isinstance(value, dict):
             while isinstance(value, dict):
-                for new_key, new_value in value.items():
-                    value = new_value
-                result_dict = dictionary_constructor(path_split, {new_key: new_value}, result_dict)
-            result_dict = dictionary_constructor(path_split, {new_key: {new_value: operation}},
-                                                 result_dict)
+                key, value = list(value.keys())[0], list(value.values())[0]
+                result_dict = dictionary_constructor(path_split, {key: value}, result_dict)
+            result_dict = dictionary_constructor(path_split,
+                                                 {key: {value: operation}}, result_dict)
         elif isinstance(value, tuple):
             result_dict = dictionary_constructor(path_split,
                                                  {str(value[0]): DELETED, str(value[1]): ADDED},
