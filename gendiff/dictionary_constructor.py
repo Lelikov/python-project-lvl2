@@ -1,7 +1,7 @@
 import itertools
 
 
-def construction_dictionary(path_split, value, result_dict):
+def dictionary_constructor(path_split, value, result_dict):
     '''
     Constructing path into {a: {b: {...}} view
     :param path_split: Array of the path to the parameter

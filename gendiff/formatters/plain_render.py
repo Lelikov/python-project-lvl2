@@ -1,23 +1,25 @@
-def plain_render(plain_array):
+from gendiff.constants import ADDED, DELETED, CHANGED, NO_CHANGED
+
+
+def plain_render(plain_list):
     '''
     Render difference to plain format
-    :param text_array: Difference in (path, operation, value) format
+    :param plain_list: Difference in (path, operation, value) format
     :return: Plain text
     '''
-    array = []
-    for param in plain_array:
+
+    result_list = []
+    for param in plain_list:
         path, operation, value = param
-        if operation == 'change':
-            before_change, after_change = value.split('->')
-            array.append("Property '{}' was changed. "
-                         "From '{}' to '{}'".format(path, before_change, after_change))
+        if operation == CHANGED:
+            result_list.append("Property '{}' was changed. "
+                               "From '{}' to '{}'".format(path, value[0], value[1]))
             continue
-        elif operation == 'no_change':
+        elif operation == ADDED:
+            result_list.append("Property '{}' was added with value: "
+                               "'{}'".format(path, 'complex value' if isinstance(value,
+                                                                                 dict) else value))
             continue
-        oper = {
-            'del': "Property '{}' was removed".format(path),
-            'add': "Property '{}' was added with value: "
-                   "'{}'".format(path, 'complex value' if isinstance(value, dict) else value),
-        }
-        array.append(oper[operation])
-    return '\n'.join(array)
+        elif operation == DELETED:
+            result_list.append("Property '{}' was removed".format(path))
+    return '\n'.join(result_list)
