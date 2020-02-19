@@ -29,6 +29,7 @@ def dictionary_constructor_for_json(text_list):
     :return: Dictionary
     '''
     result_dict = collections.defaultdict(dict)
+
     def add(path, new_value, result):
         return dictionary_constructor(path, new_value, result)
 
