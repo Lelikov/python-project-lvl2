@@ -5,7 +5,9 @@
         setting3: True
       + setting4: blah blah
       + setting5: {
-          key5: value5
+          key5: {
+              test: qwer
+          }
       }
       - setting6: {
           key: value

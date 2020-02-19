@@ -6,9 +6,9 @@ def test_output_formats():
         assert generate_diff("tests/fixtures/before.json",
                              "tests/fixtures/after.json", "plain") == result_plain.read()
 
-    # with open("tests/fixtures/result_json.txt", "r") as result_json:
-    #     assert generate_diff("tests/fixtures/before.json",
-    #                          "tests/fixtures/after.json", "json") == result_json.read()
+    with open("tests/fixtures/result_json.txt", "r") as result_json:
+        assert generate_diff("tests/fixtures/before.json",
+                             "tests/fixtures/after.json", "json") == result_json.read()
 
     with open("tests/fixtures/result_text.txt", "r") as result_text:
         assert generate_diff("tests/fixtures/before.json",

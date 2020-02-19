@@ -37,6 +37,7 @@ def generate_diff(path_to_file1, path_to_file2, format):
         second_file = FILE_TYPE[second_file_extension](path_to_file2)
         diff_list = []
         result = RENDER[format](constructor_diff(first_file, second_file, '', diff_list))
+
     except FileNotFoundError:
         problem = PROBLEM['Not_found']
     except KeyError:
@@ -72,7 +73,3 @@ def constructor_diff(first_file, second_file, path, diff_list):
             add(diff_key, CHANGED, (first_file[diff_key], second_file[diff_key]))
     diff_list.sort()
     return diff_list
-
-generate_diff('/Users/alexandrlelikov/PycharmProjects/python-project-lvl2/tests/fixtures/before.json',
-              '/Users/alexandrlelikov/PycharmProjects/python-project-lvl2/tests/fixtures/after.json',
-              'json')
